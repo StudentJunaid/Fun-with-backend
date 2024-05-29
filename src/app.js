@@ -1,42 +1,17 @@
-// require('dotenv').config({path: './env'})
-import dotenv from 'dotenv'
-import connect_DB from "./db";
+import express from 'express'
+import cors from 'cors'
+import cookieParser from 'cookie-parser';
 
-dotenv.config({
-    path: './env'
-})
+const app = express();
 
-connect_DB()
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}))
 
+app.use(express.json({limit: "18kb"}))
+app.use(express.urlencoded({extended:true,limit:"18kb"}))
+app.use(express.static("public"))
+app.use(cookieParser())
 
-
-
-
-
-
-
-// import mongoose from "mongoose";
-// import { DB_NAME } from './constants';
-
-// import express from 'express';
-// const app = express;
-
-// (async () =>{
-//     try {
-//      await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-//      app.on("error", (error) =>{
-//         console.log("ERROR ", error);
-//         throw error
-//      })
-
-//      app.listen(process.env.PORT,() =>{
-//         console.log(`App is listening on port, ${process.env.PORT}`);
-//      })
-//     } catch (error) {
-//         console.error(error)
-//         throw error
-//     }
-// })()
-
-
-
+export { app }
